@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Zero-Shot Instruction",
+    "description": "Ask directly with constraints.",
+    "preview": "Summarize in 5 bullets...",
+    "tags": ["Reasoning", "Summarization"],
+    "link": "examples/zero-shot.html",
+    "locked": false
+  },
+  {
+    "name": "Few-Shot Patterning",
+    "description": "Anchor style with 2–3 labeled examples.",
+    "preview": "Q → A patterning.",
+    "tags": ["Creativity", "Data"],
+    "link": "examples/few-shot.html",
+    "locked": false
+  },
+  {
+    "name": "Delimiters & XML Teach-Back",
+    "description": "Reduce ambiguity with clear parsing and structured answers.",
+    "tags": ["Data", "Reasoning", "Summarization"],
+    "link": "examples/xml-teachback.html",
+    "locked": true
+  }
+]
