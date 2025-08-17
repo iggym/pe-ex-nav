@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Explorer – GPT-5 Cookbook</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-white border-b shadow-sm">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+      <h1 class="text-xl font-bold text-blue-600">Prompt Explorer</h1>
+      <nav class="space-x-6 hidden md:flex">
+        <a href="#" class="hover:text-blue-600">Home</a>
+        <a href="#" class="hover:text-blue-600">Explorer</a>
+        <a href="#" class="hover:text-blue-600">Playbook</a>
+        <a href="#" class="hover:text-blue-600">Leaderboard</a>
+      </nav>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Unlock $29
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="max-w-4xl mx-auto text-center py-16 px-6">
+    <h2 class="text-4xl font-extrabold mb-4">
+      Unlock the hidden <span class="text-blue-600">AI cheatcodes.</span>
+    </h2>
+    <p class="text-lg text-gray-600 mb-6">
+      Find, copy, and save the best GPT-5 prompting techniques in seconds.
+    </p>
+    <div class="flex justify-center space-x-4">
+      <button class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700">
+        Start Exploring
+      </button>
+      <button class="bg-gray-200 px-6 py-3 rounded-lg text-lg hover:bg-gray-300">
+        Unlock All ($29)
+      </button>
+    </div>
+    <p class="text-gray-500 text-sm mt-4">
+      Launch Window Ends In: <span class="font-semibold">47:59:12</span> — 1/5000 Founder Unlocks
+    </p>
+  </section>
+
+  <!-- Explorer Filters -->
+  <section class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-wrap gap-2 mb-8 justify-center">
+      <button class="px-3 py-1 rounded-full bg-blue-600 text-white text-sm">All</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Reasoning</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Creativity</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Summarization</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Coding</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Planning</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Data</button>
+      <button class="px-3 py-1 rounded-full bg-gray-200 text-sm hover:bg-gray-300">Agents</button>
+    </div>
+  </section>
+
+  <!-- Explorer Cards -->
+  <section class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Free Card -->
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col justify-between hover:shadow-md">
+        <div>
+          <h3 class="text-lg font-semibold">Zero-Shot Instruction</h3>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Reasoning</span>
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Summarization</span>
+          </div>
+          <p class="mt-3 text-sm text-gray-600">
+            Ask directly with constraints.<br>
+            <span class="text-gray-400 italic">Preview: "Summarize in 5 bullets..."</span>
+          </p>
+        </div>
+        <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+          View Example
+        </button>
+      </div>
+
+      <!-- Locked Card -->
+      <div class="relative bg-white rounded-lg shadow p-6 flex flex-col justify-between hover:shadow-md">
+        <div>
+          <h3 class="text-lg font-semibold">Delimiters & XML Teach-Back</h3>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Data</span>
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Reasoning</span>
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Summarization</span>
+          </div>
+          <p class="mt-3 text-sm text-gray-600 line-clamp-2">
+            Reduce ambiguity with clear parsing and structured answers.
+          </p>
+        </div>
+        <div class="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center rounded-lg">
+          <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Unlock $29
+          </button>
+        </div>
+      </div>
+
+      <!-- Another Free Card -->
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col justify-between hover:shadow-md">
+        <div>
+          <h3 class="text-lg font-semibold">Few-Shot Patterning</h3>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Creativity</span>
+            <span class="px-2 py-1 text-xs bg-gray-100 rounded-full">Data</span>
+          </div>
+          <p class="mt-3 text-sm text-gray-600">
+            Anchor style with 2–3 labeled examples.<br>
+            <span class="text-gray-400 italic">Preview: Q → A patterning.</span>
+          </p>
+        </div>
+        <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+          View Example
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-16 py-8 text-center text-gray-500 text-sm border-t">
+    © 2025 Prompt Explorer – Powered by GPT-5 Cookbook
+  </footer>
+
+</body>
+</html>
