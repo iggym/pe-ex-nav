@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prompt Explorer — GPT-5 Cheatcodes</title>
+  <meta name="description" content="Find the right AI cheatcode instantly. Explore, copy, and save the best GPT-5 prompting techniques." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Card flip */
+    .flip { perspective: 1000px; }
+    .flip-inner { transform-style: preserve-3d; transition: transform .5s; }
+    .flipped .flip-inner { transform: rotateY(180deg); }
+    .flip-front, .flip-back { backface-visibility: hidden; }
+    .flip-back { transform: rotateY(180deg); }
+    /* Blur lock */
+    .locked::after {
+      content: "";
+      position: absolute; inset: 0;
+      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,.35);
+      border-radius: 1rem;
+    }
+    /* Hide scrollbar on chips overflow */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900">
+  <!-- Sticky header -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-white/70 border-b border-neutral-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500"></div>
+        <div class="font-semibold">Prompt Explorer</div>
+        <span class="hidden sm:inline text-xs rounded-full bg-neutral-100 px-2 py-1 ml-2">Powered by GPT-5 Cookbook</span>
+      </div>
+      <nav class="flex items-center gap-2">
+        <button id="navHome" class="text-sm px-3 py-2 rounded-lg hover:bg-neutral-100">Home</button>
+        <button id="navExplorer" class="text-sm px-3 py-2 rounded-lg hover:bg-neutral-100">Explorer</button>
+        <button id="navPlaybook" class="text-sm px-3 py-2 rounded-lg hover:bg-neutral-100">Playbook</button>
+        <button id="navLeaderboard" class="text-sm px-3 py-2 rounded-lg hover:bg-neutral-100">Leaderboard</button>
+        <button id="upgradeBtn" class="text-sm font-semibold px-3 py-2 rounded-lg text-white bg-blue-600 hover:bg-blue-700 shadow">Unlock $29</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Landing / Hero -->
+  <section id="landing" class="max-w-6xl mx-auto px-4 py-10 sm:py-16">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+          Unlock the hidden <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">AI cheatcodes</span>.
+        </h1>
+        <p class="mt-4 text-neutral-600 text-lg">
+          Find, copy, and save the best GPT-5 prompting techniques in seconds.
+        </p>
+
+        <!-- Countdown + scarcity -->
+        <div class="mt-6 p-4 rounded-xl bg-white/80 border border-neutral-200 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="text-sm">
+              <div class="font-semibold">Launch Window Ends In</div>
+              <div id="countdown" class="text-2xl font-bold tracking-tight mt-1">47:59:59</div>
+            </div>
+            <div class="w-40">
+              <div class="text-xs text-neutral-600 mb-1 text-right"><span id="claimed">0</span>/5000 Founder Unlocks</div>
+              <div class="w-full h-2 rounded bg-neutral-200 overflow-hidden">
+                <div id="claimBar" class="h-full w-0 bg-green-500 transition-all"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a href="#explorer" id="startExploring" class="text-center px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold shadow hover:bg-blue-700">Start Exploring</a>
+          <button id="unlockCta" class="px-5 py-3 rounded-lg bg-neutral-900 text-white font-semibold shadow hover:bg-neutral-800">Unlock All ($29)</button>
+        </div>
+        <p class="mt-3 text-sm text-neutral-600">Includes full library (20+ techniques), Playbook, exports, and sharing.</p>
+      </div>
+
+      <!-- Preview panel -->
+      <div class="p-5 rounded-2xl bg-white border border-neutral-200 shadow-lg">
+        <div class="text-sm text-neutral-500 mb-2 font-medium">Free Preview</div>
+        <div class="space-y-3">
+          <div class="p-4 rounded-xl border bg-neutral-50">
+            <div class="text-sm font-semibold">Zero-Shot Instruction</div>
+            <div class="text-sm text-neutral-600 mt-1">Ask directly with clear constraints.</div>
+            <pre class="mt-3 bg-white p-3 rounded-lg text-xs overflow-x-auto">You are a concise analyst. In 5 bullets (≤12 words each), explain the core idea of {topic}. End with 1 surprising takeaway.</pre>
+          </div>
+          <div class="p-4 rounded-xl border bg-neutral-50">
+            <div class="text-sm font-semibold">Few-Shot Patterning</div>
+            <div class="text-sm text-neutral-600 mt-1">Show 2–3 labeled examples to anchor style.</div>
+            <pre class="mt-3 bg-white p-3 rounded-lg text-xs overflow-x-auto">&lt;examples&gt;
+Q: Summarize for a 5th grader → A: ...
+Q: Summarize for an exec → A: ...
+&lt;/examples&gt;
+Now: Summarize {text} for {audience}.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explorer -->
+  <section id="explorer" class="max-w-6xl mx-auto px-4 pb-24">
+    <div class="flex items-end justify-between gap-3 flex-wrap">
+      <div class="flex-1 min-w-[240px]">
+        <label class="sr-only" for="search">Search</label>
+        <input id="search" type="search" placeholder="Search by keyword…"
+          class="w-full px-4 py-3 rounded-xl border border-neutral-300 focus:ring-4 ring-blue-100 outline-none" />
+      </div>
+      <div class="text-sm text-neutral-600">Showing <span id="visibleCount">0</span> of <span id="totalCount">0</span></div>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="mt-4 flex gap-2 overflow-x-auto no-scrollbar">
+      <button class="chip active" data-cat="all">All</button>
+      <button class="chip" data-cat="Reasoning">Reasoning</button>
+      <button class="chip" data-cat="Creativity">Creativity</button>
+      <button class="chip" data-cat="Summarization">Summarization</button>
+      <button class="chip" data-cat="Coding">Coding</button>
+      <button class="chip" data-cat="Planning">Planning</button>
+      <button class="chip" data-cat="Data">Data</button>
+      <button class="chip" data-cat="Agents">Agents</button>
+    </div>
+
+    <!-- Cards grid -->
+    <div id="cardGrid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+    <!-- Locked notice -->
+    <div id="lockedNotice" class="mt-8">
+      <div class="p-5 rounded-2xl bg-white border border-neutral-200 shadow flex items-center justify-between gap-4">
+        <div>
+          <div class="font-semibold">Unlock 20+ cheatcodes + Playbook</div>
+          <p class="text-sm text-neutral-600">You’ve reached the limit of the free library (6 cards). Get the full set, save favorites, and export.</p>
+        </div>
+        <button class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700" id="unlockBtn2">Unlock $29</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Playbook Panel -->
+  <section id="playbook" class="max-w-6xl mx-auto px-4 pb-24 hidden">
+    <h2 class="text-2xl font-bold">My Playbook</h2>
+    <p class="text-neutral-600 mt-1">Saved techniques and prompts. Export or share.</p>
+    <div id="playbookList" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div class="mt-6 flex gap-3">
+      <button id="exportJson" class="px-4 py-2 rounded-lg border font-semibold hover:bg-neutral-50">Export JSON</button>
+      <button id="exportMd" class="px-4 py-2 rounded-lg border font-semibold hover:bg-neutral-50">Export Markdown</button>
+      <a id="downloadLink" class="hidden"></a>
+    </div>
+  </section>
+
+  <!-- Leaderboard Placeholder -->
+  <section id="leaderboard" class="max-w-6xl mx-auto px-4 pb-24 hidden">
+    <h2 class="text-2xl font-bold">Trending Prompt Packs</h2>
+    <p class="text-neutral-600 mt-1">Seeded examples for demo purposes.</p>
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="lbGrid"></div>
+  </section>
+
+  <!-- Paywall Modal -->
+  <div id="paywall" class="fixed inset-0 z-50 hidden items-center justify-center">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative max-w-md mx-auto bg-white rounded-2xl p-6 shadow-xl border border-neutral-200">
+      <div class="text-sm text-neutral-500 mb-2 font-medium">Launch Special</div>
+      <h3 class="text-xl font-bold">Unlock 20+ AI Cheatcodes</h3>
+      <ul class="mt-3 text-sm text-neutral-700 list-disc pl-5 space-y-1">
+        <li>Full technique library with multi-examples</li>
+        <li>Save to Playbook + export JSON/Markdown</li>
+        <li>Recommended LLM notes</li>
+      </ul>
+      <div class="mt-4">
+        <div class="text-xs text-neutral-600 mb-1 text-right"><span id="claimed2">0</span>/5000 Founder Unlocks</div>
+        <div class="w-full h-2 rounded bg-neutral-200 overflow-hidden">
+          <div id="claimBar2" class="h-full w-0 bg-green-500 transition-all"></div>
+        </div>
+      </div>
+      <div class="mt-6 flex gap-3">
+        <!-- Replace href with your checkout link (Stripe/Gumroad) -->
+        <a id="checkoutLink" href="#" class="flex-1 text-center px-4 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700">Unlock Now — $29</a>
+        <button id="simulateUnlock" class="px-4 py-3 rounded-lg border font-semibold hover:bg-neutral-50">Simulate</button>
+      </div>
+      <button id="closePaywall" class="absolute top-3 right-3 text-neutral-500 hover:text-neutral-800" aria-label="Close">✕</button>
+    </div>
+  </div>
+
+  <script>
+    // ----------- Data -----------
+    const TECHNIQUES = [
+      { id:"zero", name:"Zero-Shot Instruction", cat:["Reasoning","Summarization"], why:"Direct task with explicit constraints.", examples:[
+        "You are a concise analyst. In 5 bullets (≤12 words), explain {topic}. End with 1 surprising takeaway."
+      ], llms:["GPT-5 Small: fastest","GPT-5 Pro: better nuance"]},
+      { id:"few", name:"Few-Shot Patterning", cat:["Creativity","Summarization"], why:"Anchor style/format with 2–3 labeled examples.", examples:[
+        "<examples>\nQ: Rewrite with punchy tone → A: ...\nQ: Rewrite with formal tone → A: ...\n</examples>\nNow: Rewrite {text} with {tone}."
+      ], llms:["GPT-5 Pro: stronger style control"]},
+      { id:"cot", name:"Chain-of-Thought (CoT)", cat:["Reasoning","Planning"], why:"Reveal stepwise reasoning to improve correctness on complex tasks.", examples:[
+        "Let's reason step by step. First list assumptions, then derive, then final answer in <final> tags."
+      ], llms:["GPT-5 Pro","GPT-5 Reasoning"]},
+      { id:"react", name:"ReAct", cat:["Reasoning","Agents"], why:"Alternate reasoning + actions using tools or documents.", examples:[
+        "Use the format:\nThought: ...\nAction: search[\"...\"]\nObservation: ...\n... Repeat until Final."
+      ], llms:["GPT-5 Tools/Agents"]},
+      { id:"delim", name:"Delimiters & XML", cat:["Data","Summarization"], why:"Reduce ambiguity with clear sections & parsing.", examples:[
+        "<task>Summarize for exec in 5 bullets</task>\n<context>{paste_text}</context>\n<rules>Each bullet ≤12 words</rules>"
+      ], llms:["Any GPT-5"]},
+      { id:"role", name:"Role/Persona Priming", cat:["Creativity","Reasoning"], why:"Constrain voice & decision criteria via role.", examples:[
+        "You are a CFO. Evaluate this plan in 7 bullets: cash impact, risk, ROI, timeline, headcount, ops risks, dependencies."
+      ], llms:["Any GPT-5"]},
+
+      // Premium (sample 16 more)
+      { id:"selfcons", name:"Self-Consistency", cat:["Reasoning"], why:"Sample multiple CoT paths and vote on answer.", examples:[
+        "Generate 5 distinct solution paths. Provide final answer chosen by majority with brief justification."
+      ], llms:["GPT-5 Reasoning"]},
+      { id:"critique", name:"Reflexion / Self-Critique", cat:["Reasoning","Planning"], why:"Model critiques its own output against a rubric.", examples:[
+        "Draft → Critique vs rubric (accuracy, brevity, tone) → Revise. Show diffs."
+      ], llms:["GPT-5 Pro"]},
+      { id:"soc", name:"Socratic Tutoring", cat:["Creativity","Reasoning"], why:"Teach by questioning; adapt difficulty.", examples:[
+        "Ask 1 question at a time. If user errs, simplify and give a hint, not the answer."
+      ], llms:["GPT-5 Pro"]},
+      { id:"prog", name:"Progressive Refinement", cat:["Planning","Summarization"], why:"Iterate: brief → outline → draft → critique.", examples:[
+        "Phase 1: constraints; Phase 2: outline; Phase 3: draft; Phase 4: critique; Phase 5: final."
+      ], llms:["Any GPT-5"]},
+      { id:"spec", name:"Extreme Specificity", cat:["Data","Summarization"], why:"Concrete numbers, word limits, and format reduce variance.", examples:[
+        "Output exactly 6 bullets, ≤10 words each, with a 3-word title in ALL CAPS."
+      ], llms:["Any GPT-5"]},
+      { id:"guard", name:"Guardrails via Schemas", cat:["Data","Coding"], why:"Constrain output to JSON/CSV/XML for reliability.", examples:[
+        "Return JSON only: {\"title\":\"…\",\"bullets\":[\"…\"]}. No prose."
+      ], llms:["Any GPT-5"]},
+      { id:"rubric", name:"Rubric-Driven Evaluation", cat:["Planning","Reasoning"], why:"Score outputs against explicit criteria.", examples:[
+        "Score this summary (1–5) on fidelity, brevity, clarity. Then revise to 5/5."
+      ], llms:["Any GPT-5"]},
+      { id:"planner", name:"Decompose & Plan", cat:["Planning","Reasoning"], why:"Break task into sub-tasks with owners & timelines.", examples:[
+        "Decompose goal into milestones, tasks, owner, ETA, risk, blockers → table."
+      ], llms:["GPT-5 Pro"]},
+      { id:"compare", name:"Multi-Prompt Comparison", cat:["Reasoning","Creativity"], why:"Generate alternatives, then pick best.", examples:[
+        "Produce 3 distinct summaries (formal, punchy, neutral). Choose best with reasons."
+      ], llms:["Any GPT-5"]},
+      { id:"stylemix", name:"Style Transfer", cat:["Creativity"], why:"Blend voices with descriptors & constraints.", examples:[
+        "Rewrite {text} in the style of {author1}+{author2}, but plain, precise, ≤140 words."
+      ], llms:["GPT-5 Pro"]},
+      { id:"skeptic", name:"Adversarial QA (Devil’s Advocate)", cat:["Reasoning"], why:"Challenge claims; reduce hallucinations.", examples:[
+        "List strongest counter-arguments with sources; then steelman the original claim."
+      ], llms:["GPT-5 Pro"]},
+      { id:"trace", name:"Show Your Work (Visible Rationale)", cat:["Reasoning","Data"], why:"Expose intermediate steps in fenced blocks.", examples:[
+        "Return steps in ```steps```; final answer in <final> tags only."
+      ], llms:["GPT-5 Reasoning"]},
+      { id:"mem", name:"Context Memory Frames", cat:["Planning","Agents"], why:"Pin key facts; reference them explicitly.", examples:[
+        "<facts>…</facts>\nAlways cite <facts> ids when concluding."
+      ], llms:["Any GPT-5"]},
+      { id:"contra", name:"Counterfactual Probing", cat:["Creativity","Reasoning"], why:"Explore ‘what if’ branches to widen search.", examples:[
+        "Imagine 3 worlds where constraint X is false. What new options appear?"
+      ], llms:["GPT-5 Pro"]},
+      { id:"rerank", name:"Generate → Rank → Refine", cat:["Creativity","Planning"], why:"Three-stage pipeline: more quality via selection.", examples:[
+        "Generate 8 ideas → score 0–10 vs rubric → refine top 2 into briefs."
+      ], llms:["Any GPT-5"]},
+      { id:"teachback", name:"Teach-Back", cat:["Summarization","Reasoning"], why:"Explain to verify understanding.", examples:[
+        "Explain this concept to a 9-year-old; then to a CFO; list differences."
+      ], llms:["Any GPT-5"]},
+      { id:"tabular", name:"Tabular Outputs", cat:["Data","Summarization"], why:"Forces structure for scanning & reuse.", examples:[
+        "Return a Markdown table with columns: Step | Owner | ETA | Risk."
+      ], llms:["Any GPT-5"]},
+      { id:"synth", name:"Source-Aware Synthesis", cat:["Summarization","Reasoning"], why:"Merge multiple docs with citations.", examples:[
+        "Summarize sources A,B,C; cite [A],[B],[C]; mark conflicts explicitly."
+      ], llms:["GPT-5 Pro"]},
+    ];
+
+    const FREE_LIMIT = 6;
+
+    // ----------- Elements -----------
+    const landing = document.getElementById('landing');
+    const explorer = document.getElementById('explorer');
+    const playbookSec = document.getElementById('playbook');
+    const leaderboardSec = document.getElementById('leaderboard');
+    const grid = document.getElementById('cardGrid');
+    const lockedNotice = document.getElementById('lockedNotice');
+    const search = document.getElementById('search');
+    const visibleCount = document.getElementById('visibleCount');
+    const totalCount = document.getElementById('totalCount');
+    const upgradeBtn = document.getElementById('upgradeBtn');
+    const unlockBtn2 = document.getElementById('unlockBtn2');
+    const unlockCta = document.getElementById('unlockCta');
+    const paywall = document.getElementById('paywall');
+    const closePaywall = document.getElementById('closePaywall');
+    const simulateUnlock = document.getElementById('simulateUnlock');
+    const navHome = document.getElementById('navHome');
+    const navExplorer = document.getElementById('navExplorer');
+    const navPlaybook = document.getElementById('navPlaybook');
+    const navLeaderboard = document.getElementById('navLeaderboard');
+
+    // Counters
+    const claimed = document.getElementById('claimed');
+    const claimBar = document.getElementById('claimBar');
+    const claimed2 = document.getElementById('claimed2');
+    const claimBar2 = document.getElementById('claimBar2');
+
+    // Playbook
+    const playbookList = document.getElementById('playbookList');
+    const exportJson = document.getElementById('exportJson');
+    const exportMd = document.getElementById('exportMd');
+    const downloadLink = document.getElementById('downloadLink');
+
+    // ----------- State -----------
+    let selectedCat = 'all';
+    let query = '';
+    let unlocked = localStorage.getItem('pe_unlocked') === 'true';
+    let myPlaybook = JSON.parse(localStorage.getItem('pe_playbook') || '[]');
+    const founderTarget = 5000;
+
+    // ----------- Utilities -----------
+    const $ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+    function kebab(s){ return s.toLowerCase().replace(/\s+/g,'-'); }
+    function copyText(t){
+      navigator.clipboard.writeText(t).then(()=>{
+        toast('Copied!');
+      });
+    }
+    function toast(msg){
+      const el = document.createElement('div');
+      el.textContent = msg;
+      el.className = "fixed bottom-4 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-sm px-3 py-2 rounded-lg shadow z-[60]";
+      document.body.appendChild(el);
+      setTimeout(()=>{ el.remove(); }, 1400);
+    }
+
+    function setView(view){
+      // Simple router
+      [landing, explorer, playbookSec, leaderboardSec].forEach(s=> s.classList.add('hidden'));
+      if(view==='home'){ landing.classList.remove('hidden'); explorer.classList.remove('hidden'); }
+      if(view==='explorer'){ explorer.classList.remove('hidden'); }
+      if(view==='playbook'){ playbookSec.classList.remove('hidden'); }
+      if(view==='leaderboard'){ leaderboardSec.classList.remove('hidden'); }
+      window.location.hash = view;
+    }
+
+    // ----------- Rendering -----------
+    function filterTechniques(){
+      return TECHNIQUES.filter(t=>{
+        const catMatch = (selectedCat==='all') || t.cat.includes(selectedCat);
+        const q = query.trim().toLowerCase();
+        const qMatch = !q || [t.name, t.why, ...(t.examples||[]), ...(t.cat||[])].join(' ').toLowerCase().includes(q);
+        return catMatch && qMatch;
+      });
+    }
+
+    function isLocked(idx){
+      return !unlocked && idx >= FREE_LIMIT;
+    }
+
+    function renderCards(){
+      const list = filterTechniques();
+      totalCount.textContent = list.length;
+      grid.innerHTML = '';
+
+      list.forEach((t, idx) => {
+        const locked = isLocked(idx);
+        const card = document.createElement('div');
+        card.className = "relative flip group";
+        card.innerHTML = `
+          <div class="flip-inner rounded-2xl bg-white border border-neutral-200 shadow-sm p-0">
+            <div class="flip-front absolute inset-0 p-4 rounded-2xl flex flex-col">
+              <div class="flex items-center justify-between gap-2">
+                <div class="font-semibold">${t.name}</div>
+                <div class="text-xs px-2 py-1 rounded-full bg-neutral-100">${t.cat[0]}</div>
+              </div>
+              <div class="mt-2 text-sm text-neutral-600">${t.why}</div>
+              <div class="mt-3 flex flex-wrap gap-1">
+                ${t.cat.map(c=>`<span class="text-[11px] px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">${c}</span>`).join('')}
+              </div>
+              <div class="mt-auto pt-4 flex items-center justify-between">
+                <button class="flipBtn text-sm px-3 py-2 rounded-lg border hover:bg-neutral-50">View Example</button>
+                ${unlocked ? `<button class="saveBtn text-sm px-3 py-2 rounded-lg border hover:bg-neutral-50">Save</button>` : `<button class="lockBtn text-sm px-3 py-2 rounded-lg border bg-neutral-50">Unlock</button>`}
+              </div>
+            </div>
+            <div class="flip-back absolute inset-0 p-4 rounded-2xl flex flex-col">
+              <div class="text-xs text-neutral-500">Example</div>
+              <pre class="mt-2 bg-neutral-50 p-3 rounded-lg text-xs overflow-x-auto">${t.examples[0]}</pre>
+              <div class="mt-3 text-xs text-neutral-600">Suggested LLMs: ${t.llms?.join(' • ') || '—'}</div>
+              <div class="mt-auto pt-4 flex items-center justify-between">
+                <button class="flipBtn text-sm px-3 py-2 rounded-lg border hover:bg-neutral-50">Back</button>
+                <button class="copyBtn text-sm px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">Copy</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Lock overlay for premium cards
+        if(locked){
+          card.classList.add('locked');
+          card.querySelector('.lockBtn')?.addEventListener('click', openPaywall);
+          card.addEventListener('click', (e)=>{
+            if(!e.target.classList.contains('flipBtn')) openPaywall();
+          });
+        }
+
+        // Interactions
+        card.addEventListener('click', (e)=>{
+          if(e.target.classList.contains('flipBtn')){
+            card.classList.toggle('flipped');
+          }
+        });
+        card.querySelector('.copyBtn')?.addEventListener('click', ()=>{
+          copyText(t.examples[0]);
+        });
+        card.querySelector('.saveBtn')?.addEventListener('click', ()=>{
+          addToPlaybook(t);
+        });
+
+        grid.appendChild(card);
+      });
+
+      visibleCount.textContent = grid.children.length;
+      lockedNotice.style.display = (!unlocked && filterTechniques().length > FREE_LIMIT) ? 'block' : 'none';
+    }
+
+    // ----------- Playbook -----------
+    function addToPlaybook(t){
+      if(!unlocked){ openPaywall(); return; }
+      if(!myPlaybook.find(x=>x.id===t.id)){
+        myPlaybook.push(t);
+        localStorage.setItem('pe_playbook', JSON.stringify(myPlaybook));
+        renderPlaybook();
+        toast('Saved to Playbook');
+      } else {
+        toast('Already in Playbook');
+      }
+    }
+
+    function renderPlaybook(){
+      playbookList.innerHTML = '';
+      myPlaybook.forEach(t=>{
+        const el = document.createElement('div');
+        el.className = "p-4 rounded-2xl bg-white border border-neutral-200";
+        el.innerHTML = `
+          <div class="font-semibold">${t.name}</div>
+          <div class="text-sm text-neutral-600 mt-1">${t.why}</div>
+          <pre class="mt-3 bg-neutral-50 p-3 rounded-lg text-xs overflow-x-auto">${t.examples[0]}</pre>
+          <div class="mt-3 flex gap-2">
+            <button class="px-3 py-2 text-sm rounded-lg border hover:bg-neutral-50 copy">Copy</button>
+            <button class="px-3 py-2 text-sm rounded-lg border hover:bg-neutral-50 remove">Remove</button>
+          </div>
+        `;
+        el.querySelector('.copy').addEventListener('click', ()=>copyText(t.examples[0]));
+        el.querySelector('.remove').addEventListener('click', ()=>{
+          myPlaybook = myPlaybook.filter(x=>x.id!==t.id);
+          localStorage.setItem('pe_playbook', JSON.stringify(myPlaybook));
+          renderPlaybook();
+        });
+        playbookList.appendChild(el);
+      });
+    }
+
+    function download(filename, content){
+      const blob = new Blob([content], {type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      downloadLink.href = url;
+      downloadLink.download = filename;
+      downloadLink.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 2000);
+    }
+
+    exportJson.addEventListener('click', ()=>{
+      if(!unlocked){ openPaywall(); return; }
+      download('playbook.json', JSON.stringify(myPlaybook, null, 2));
+    });
+    exportMd.addEventListener('click', ()=>{
+      if(!unlocked){ openPaywall(); return; }
+      const md = myPlaybook.map(t=>`## ${t.name}\n**Why:** ${t.why}\n\n\`\`\`\n${t.examples[0]}\n\`\`\`\n`).join('\n');
+      download('playbook.md', md);
+    });
+
+    // ----------- Search/Filter -----------
+    search.addEventListener('input', (e)=>{ query = e.target.value; renderCards(); });
+    $('.chip').forEach(btn=>{
+      btn.classList.add('px-3','py-2','rounded-full','border','text-sm','hover:bg-neutral-50');
+      btn.addEventListener('click', ()=>{
+        $('.chip').forEach(b=>b.classList.remove('active','bg-neutral-900','text-white'));
+        btn.classList.add('active','bg-neutral-900','text-white');
+        selectedCat = btn.dataset.cat;
+        renderCards();
+      });
+    });
+
+    // ----------- Paywall -----------
+    function openPaywall(){ paywall.classList.remove('hidden'); paywall.classList.add('flex'); }
+    function closePay(){ paywall.classList.add('hidden'); paywall.classList.remove('flex'); }
+    closePaywall.addEventListener('click', closePay);
+    [upgradeBtn, unlockBtn2, unlockCta].forEach(b=> b.addEventListener('click', openPaywall));
+    simulateUnlock.addEventListener('click', ()=>{
+      unlocked = true;
+      localStorage.setItem('pe_unlocked','true');
+      closePay();
+      document.getElementById('upgradeBtn').classList.add('hidden');
+      renderCards();
+      toast('Unlocked! Enjoy the full library.');
+    });
+
+    // ----------- Countdown + Scarcity -----------
+    const start = Date.now();
+    const target = start + 48 * 60 * 60 * 1000;
+    function pad(n){ return n.toString().padStart(2,'0'); }
+    function tick(){
+      const now = Date.now();
+      const diff = Math.max(0, target - now);
+      const h = Math.floor(diff / (1000*60*60));
+      const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+      const s = Math.floor((diff % (1000*60)) / 1000);
+      const t = `${pad(h)}:${pad(m)}:${pad(s)}`;
+      const cd = document.getElementById('countdown');
+      if(cd) cd.textContent = t;
+
+      // Fake claims curve (ease-out toward ~4200)
+      const elapsed = now - start;
+      const ratio = Math.min(1, elapsed / (48*60*60*1000));
+      const claimedNum = Math.floor(4200 * (1 - Math.pow(1 - ratio, 1.6)));
+      claimed.textContent = claimedNum;
+      claimed2.textContent = claimedNum;
+      const w = Math.min(100, (claimedNum/founderTarget)*100);
+      claimBar.style.width = w + '%';
+      claimBar2.style.width = w + '%';
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // ----------- Leaderboard (seed) -----------
+    const LB_SEED = [
+      {user:"@sara", title:"Exec-Ready Summaries", count: 1240},
+      {user:"@devon", title:"Bug-to-Patch Flow", count: 975},
+      {user:"@mila", title:"UX Writing Sprint", count: 812},
+      {user:"@kyle", title:"Analyst Brief Pack", count: 691},
+      {user:"@jo", title:"Lesson Plan Kit", count: 644},
+      {user:"@lee", title:"Agency Ideation Pack", count: 538},
+    ];
+    function renderLeaderboard(){
+      const lb = document.getElementById('lbGrid');
+      lb.innerHTML = '';
+      LB_SEED.forEach(item=>{
+        const el = document.createElement('div');
+        el.className = "p-4 rounded-2xl bg-white border border-neutral-200";
+        el.innerHTML = `
+          <div class="text-sm text-neutral-500">${item.user}</div>
+          <div class="font-semibold mt-1">${item.title}</div>
+          <div class="text-sm text-neutral-600 mt-2">Shares: ${item.count}</div>
+          <button class="mt-3 px-3 py-2 text-sm rounded-lg border hover:bg-neutral-50">View</button>
+        `;
+        lb.appendChild(el);
+      });
+    }
+
+    // ----------- Nav -----------
+    navHome.addEventListener('click', ()=>setView('home'));
+    navExplorer.addEventListener('click', ()=>setView('explorer'));
+    navPlaybook.addEventListener('click', ()=>{ if(!unlocked){ openPaywall(); } else { setView('playbook'); renderPlaybook(); }});
+    navLeaderboard.addEventListener('click', ()=>{ setView('leaderboard'); renderLeaderboard(); });
+    document.getElementById('startExploring').addEventListener('click', ()=>setView('explorer'));
+
+    // ----------- Init -----------
+    function init(){
+      if(unlocked){ document.getElementById('upgradeBtn').classList.add('hidden'); }
+      renderCards();
+      renderPlaybook();
+      setView('home');
+    }
+    init();
+  </script>
+</body>
+</html>
